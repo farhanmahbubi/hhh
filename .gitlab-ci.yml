@@ -1,0 +1,33 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  image: docker:20.10.7
+  services:
+    - docker:20.10.7-dind
+  before_script:
+    - docker info
+  script:
+    - docker build -t laravel-app:latest .
+
+test:
+  stage: test
+  image: php:8.2-fpm
+  before_script:
+    - apt-get update && apt-get install -y git unzip curl
+    - curl -sS https://getcomposer.org/installer | php
+    - mv composer.phar /usr/local/bin/composer
+    - composer install
+  script:
+    - php artisan test
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying to local"
+    - docker-compose -f docker-compose.yml up -d
+  only:
+    - main
