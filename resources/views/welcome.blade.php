@@ -8,5 +8,7 @@
 </head>
 <body>
     <h1>hhhhhh<h1>
+    <p>Welcome to our website!</p>
+    <p>We are glad to have you here.</p>
 </body>
 </html>
